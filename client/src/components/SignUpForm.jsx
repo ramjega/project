@@ -57,7 +57,6 @@ const SignUpForm = ({
                         <TextField
                             floatingLabelText="Mobile Number"
                             name="mobileNumber"
-                            type="number"
                             errorText={errors.mobileNumber}
                             onChange={onChange}
                             value={user.mobileNumber}
@@ -76,7 +75,7 @@ const SignUpForm = ({
 
                     <div className="field-line">
                         <TextField
-                            floatingLabelText="UserType"
+                            floatingLabelText="Job"
                             name="userType"
                             errorText={errors.userType}
                             onChange={onChange}
