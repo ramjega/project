@@ -1,7 +1,7 @@
 {
   "name": "authentication-in-react-apps",
   "version": "1.0.0",
-  "description": "Authentication in React Applications, Part 2: JSON Web Token (JWT)",
+  "description": " ",
   "main": "index.js",
   "scripts": {
     "start": "nodemon --use-strict index.js",
@@ -35,5 +35,8 @@
     "babel-preset-react": "^6.16.0",
     "nodemon": "^1.11.0",
     "webpack": "^1.14.0"
+  },
+ "engines": {
+    "node": "6.10.1"
   }
 }
