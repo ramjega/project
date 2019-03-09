@@ -24,6 +24,11 @@ const Base = ({children}) => (
                     <li className="active"><Link to="/signup">Sign up</Link></li>
                 </ul>
                 }
+                {Auth.isUserAuthenticated() &&
+                <ul className="nav navbar-nav pull-right">
+                    <li className="active"><Link to="">{Auth.getUser()}</Link></li>
+                </ul>
+                }
             </div>
         </nav>
 

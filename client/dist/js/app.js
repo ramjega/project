@@ -35259,6 +35259,7 @@
 	    path: '/logout',
 	    onEnter: function onEnter(nextState, replace) {
 	      _Auth2.default.deauthenticateUser();
+	      _Auth2.default.removeUser();
 
 	      // change the current URL to /
 	      replace('/');
@@ -35357,6 +35358,19 @@
 	                            'Sign up'
 	                        )
 	                    )
+	                ),
+	                _Auth2.default.isUserAuthenticated() && _react2.default.createElement(
+	                    'ul',
+	                    { className: 'nav navbar-nav pull-right' },
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: 'active' },
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { to: '' },
+	                            _Auth2.default.getUser()
+	                        )
+	                    )
 	                )
 	            )
 	        ),
@@ -35377,7 +35391,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -35385,60 +35399,75 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var Auth = function () {
-	  function Auth() {
-	    _classCallCheck(this, Auth);
-	  }
-
-	  _createClass(Auth, null, [{
-	    key: 'authenticateUser',
-
-
-	    /**
-	     * Authenticate a user. Save a token string in Local Storage
-	     *
-	     * @param {string} token
-	     */
-	    value: function authenticateUser(token) {
-	      localStorage.setItem('token', token);
+	    function Auth() {
+	        _classCallCheck(this, Auth);
 	    }
 
-	    /**
-	     * Check if a user is authenticated - check if a token is saved in Local Storage
-	     *
-	     * @returns {boolean}
-	     */
+	    _createClass(Auth, null, [{
+	        key: 'authenticateUser',
 
-	  }, {
-	    key: 'isUserAuthenticated',
-	    value: function isUserAuthenticated() {
-	      return localStorage.getItem('token') !== null;
-	    }
 
-	    /**
-	     * Deauthenticate a user. Remove a token from Local Storage.
-	     *
-	     */
+	        /**
+	         * Authenticate a user. Save a token string in Local Storage
+	         *
+	         * @param {string} token
+	         */
+	        value: function authenticateUser(token) {
+	            localStorage.setItem('token', token);
+	        }
+	    }, {
+	        key: 'loggedInUser',
+	        value: function loggedInUser(user) {
+	            localStorage.setItem('user', user);
+	        }
+	    }, {
+	        key: 'getUser',
+	        value: function getUser() {
+	            return localStorage.getItem('user');
+	        }
 
-	  }, {
-	    key: 'deauthenticateUser',
-	    value: function deauthenticateUser() {
-	      localStorage.removeItem('token');
-	    }
+	        /**
+	         * Check if a user is authenticated - check if a token is saved in Local Storage
+	         *
+	         * @returns {boolean}
+	         */
 
-	    /**
-	     * Get a token value.
-	     *
-	     * @returns {string}
-	     */
+	    }, {
+	        key: 'isUserAuthenticated',
+	        value: function isUserAuthenticated() {
+	            return localStorage.getItem('token') !== null;
+	        }
 
-	  }, {
-	    key: 'getToken',
-	    value: function getToken() {
-	      return localStorage.getItem('token');
-	    }
-	  }]);
+	        /**
+	         * Deauthenticate a user. Remove a token from Local Storage.
+	         *
+	         */
 
-	  return Auth;
+	    }, {
+	        key: 'deauthenticateUser',
+	        value: function deauthenticateUser() {
+	            localStorage.removeItem('token');
+	        }
+	    }, {
+	        key: 'removeUser',
+	        value: function removeUser() {
+	            localStorage.removeItem('user');
+	        }
+
+	        /**
+	         * Get a token value.
+	         *
+	         * @returns {string}
+	         */
+
+	    }, {
+	        key: 'getToken',
+	        value: function getToken() {
+	            return localStorage.getItem('token');
+	        }
+	    }]);
+
+	    return Auth;
 	}();
 
 	exports.default = Auth;
@@ -41396,6 +41425,9 @@
 	                    // save the token
 	                    _Auth2.default.authenticateUser(xhr.response.token);
 
+	                    // save the user
+	                    _Auth2.default.loggedInUser(xhr.response.user.name);
+
 	                    // change the current URL to /
 	                    _this2.context.router.replace('/');
 	                } else {
@@ -43587,57 +43619,31 @@
 	var SignUpPage = function (_React$Component) {
 	    _inherits(SignUpPage, _React$Component);
 
-	    /**
-	     * Class constructor.
-	     */
 	    function SignUpPage(props, context) {
 	        _classCallCheck(this, SignUpPage);
 
-	        // set the initial component state
 	        var _this = _possibleConstructorReturn(this, (SignUpPage.__proto__ || Object.getPrototypeOf(SignUpPage)).call(this, props, context));
 
 	        _this.state = {
 	            errors: {},
-	            user: {
-	                email: '',
-	                name: '',
-	                password: '',
-	                mobileNumber: '',
-	                userType: '',
-	                address: ''
-
-	            },
-	            mechanic: false
+	            user: {}
 	        };
-
-	        _this.processForm = _this.processForm.bind(_this);
-	        _this.changeUser = _this.changeUser.bind(_this);
 	        return _this;
 	    }
-
-	    /**
-	     * Process the form.
-	     *
-	     * @param {object} event - the JavaScript event object
-	     */
-
 
 	    _createClass(SignUpPage, [{
 	        key: 'processForm',
 	        value: function processForm(event) {
 	            var _this2 = this;
 
-	            // prevent default action. in this case, action is the form submission event
 	            event.preventDefault();
 
 	            // create a string for an HTTP body message
 	            var name = encodeURIComponent(this.state.user.name);
 	            var email = encodeURIComponent(this.state.user.email);
 	            var password = encodeURIComponent(this.state.user.password);
-	            var mobileNumber = encodeURIComponent(this.state.user.mobileNumber);
-	            var address = encodeURIComponent(this.state.user.address);
-	            var userType = encodeURIComponent(this.state.user.userType);
-	            var formData = 'name=' + name + '&email=' + email + '&password=' + password + '&mobileNumber=' + mobileNumber + '&address=' + address + '&userType=' + userType;
+
+	            var formData = 'name=' + name + '&email=' + email + '&password=' + password;
 
 	            // create an AJAX request
 	            var xhr = new XMLHttpRequest();
@@ -43647,7 +43653,6 @@
 	            xhr.addEventListener('load', function () {
 	                if (xhr.status === 200) {
 	                    // success
-
 	                    // change the component-container state
 	                    _this2.setState({
 	                        errors: {}
@@ -43660,7 +43665,6 @@
 	                    _this2.context.router.replace('/login');
 	                } else {
 	                    // failure
-
 	                    var errors = xhr.response.errors ? xhr.response.errors : {};
 	                    errors.summary = xhr.response.message;
 
@@ -43671,13 +43675,6 @@
 	            });
 	            xhr.send(formData);
 	        }
-
-	        /**
-	         * Change the user object.
-	         *
-	         * @param {object} event - the JavaScript event object
-	         */
-
 	    }, {
 	        key: 'changeUser',
 	        value: function changeUser(event) {
@@ -43690,27 +43687,13 @@
 	            });
 	        }
 	    }, {
-	        key: 'toggleMode',
-	        value: function toggleMode() {
-	            this.setState({
-	                mechanic: !this.state.mechanic
-	            });
-	        }
-
-	        /**
-	         * Render the component.
-	         */
-
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(_SignUpForm2.default, {
-	                onSubmit: this.processForm,
-	                onChange: this.changeUser,
+	                onSubmit: this.processForm.bind(this),
+	                onChange: this.changeUser.bind(this),
 	                errors: this.state.errors,
-	                user: this.state.user,
-	                mechanicMode: this.state.mechanic,
-	                toggleMode: this.toggleMode.bind(this)
+	                user: this.state.user
 	            });
 	        }
 	    }]);
@@ -43756,41 +43739,17 @@
 	    var onSubmit = _ref.onSubmit,
 	        onChange = _ref.onChange,
 	        errors = _ref.errors,
-	        user = _ref.user,
-	        toggleMode = _ref.toggleMode,
-	        mechanicMode = _ref.mechanicMode;
+	        user = _ref.user;
 	    return _react2.default.createElement(
-	        _Card.Card,
+	        'card',
 	        { className: 'container' },
-	        _react2.default.createElement('br', null),
-	        _react2.default.createElement(
-	            'button',
-	            { className: 'btn btn-primary pull-left', onClick: toggleMode },
-	            !mechanicMode ? _react2.default.createElement(
-	                'span',
-	                null,
-	                'SignUp as mechanic'
-	            ) : _react2.default.createElement(
-	                'span',
-	                null,
-	                'SignUp as user'
-	            )
-	        ),
 	        _react2.default.createElement(
 	            'form',
 	            { action: '/', onSubmit: onSubmit },
 	            _react2.default.createElement(
 	                'h2',
 	                { className: 'card-heading' },
-	                mechanicMode ? _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    'SignUp as Mechanic'
-	                ) : _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    'SignUp as User'
-	                )
+	                'SignUp'
 	            ),
 	            errors.summary && _react2.default.createElement(
 	                'p',
@@ -43830,43 +43789,6 @@
 	                    errorText: errors.password,
 	                    value: user.password
 	                })
-	            ),
-	            mechanicMode && _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'field-line' },
-	                    _react2.default.createElement(_TextField2.default, {
-	                        floatingLabelText: 'Mobile Number',
-	                        name: 'mobileNumber',
-	                        errorText: errors.mobileNumber,
-	                        onChange: onChange,
-	                        value: user.mobileNumber
-	                    })
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'field-line' },
-	                    _react2.default.createElement(_TextField2.default, {
-	                        floatingLabelText: 'Address',
-	                        name: 'address',
-	                        errorText: errors.address,
-	                        onChange: onChange,
-	                        value: user.address
-	                    })
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'field-line' },
-	                    _react2.default.createElement(_TextField2.default, {
-	                        floatingLabelText: 'Job',
-	                        name: 'userType',
-	                        errorText: errors.userType,
-	                        onChange: onChange,
-	                        value: user.userType
-	                    })
-	                )
 	            ),
 	            _react2.default.createElement(
 	                'div',

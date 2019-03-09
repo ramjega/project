@@ -36,6 +36,7 @@ const routes = {
       path: '/logout',
       onEnter: (nextState, replace) => {
         Auth.deauthenticateUser();
+        Auth.removeUser();
 
         // change the current URL to /
         replace('/');
