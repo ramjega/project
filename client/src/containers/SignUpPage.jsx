@@ -4,48 +4,24 @@ import SignUpForm from '../components/SignUpForm.jsx';
 
 class SignUpPage extends React.Component {
 
-    /**
-     * Class constructor.
-     */
     constructor(props, context) {
         super(props, context);
 
-        // set the initial component state
         this.state = {
             errors: {},
-            user: {
-                email: '',
-                name: '',
-                password: '',
-                mobileNumber: '',
-                userType: '',
-                address: '',
-
-            },
-            mechanic: false
+            user: {},
         };
-
-        this.processForm = this.processForm.bind(this);
-        this.changeUser = this.changeUser.bind(this);
     }
 
-    /**
-     * Process the form.
-     *
-     * @param {object} event - the JavaScript event object
-     */
     processForm(event) {
-        // prevent default action. in this case, action is the form submission event
         event.preventDefault();
 
         // create a string for an HTTP body message
         const name = encodeURIComponent(this.state.user.name);
         const email = encodeURIComponent(this.state.user.email);
         const password = encodeURIComponent(this.state.user.password);
-        const mobileNumber = encodeURIComponent(this.state.user.mobileNumber);
-        const address = encodeURIComponent(this.state.user.address);
-        const userType = encodeURIComponent(this.state.user.userType);
-        const formData = `name=${name}&email=${email}&password=${password}&mobileNumber=${mobileNumber}&address=${address}&userType=${userType}`;
+
+        const formData = `name=${name}&email=${email}&password=${password}`;
 
         // create an AJAX request
         const xhr = new XMLHttpRequest();
@@ -55,7 +31,6 @@ class SignUpPage extends React.Component {
         xhr.addEventListener('load', () => {
             if (xhr.status === 200) {
                 // success
-
                 // change the component-container state
                 this.setState({
                     errors: {}
@@ -68,7 +43,6 @@ class SignUpPage extends React.Component {
                 this.context.router.replace('/login');
             } else {
                 // failure
-
                 const errors = xhr.response.errors ? xhr.response.errors : {};
                 errors.summary = xhr.response.message;
 
@@ -80,11 +54,6 @@ class SignUpPage extends React.Component {
         xhr.send(formData);
     }
 
-    /**
-     * Change the user object.
-     *
-     * @param {object} event - the JavaScript event object
-     */
     changeUser(event) {
         const field = event.target.name;
         const user = this.state.user;
@@ -95,24 +64,13 @@ class SignUpPage extends React.Component {
         });
     }
 
-    toggleMode() {
-        this.setState({
-            mechanic: !this.state.mechanic
-        });
-    }
-
-    /**
-     * Render the component.
-     */
     render() {
         return (
             <SignUpForm
-                onSubmit={this.processForm}
-                onChange={this.changeUser}
+                onSubmit={this.processForm.bind(this)}
+                onChange={this.changeUser.bind(this)}
                 errors={this.state.errors}
                 user={this.state.user}
-                mechanicMode={this.state.mechanic}
-                toggleMode={this.toggleMode.bind(this)}
             />
         );
     }

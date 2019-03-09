@@ -10,15 +10,11 @@ const SignUpForm = ({
                         onChange,
                         errors,
                         user,
-                        toggleMode,
-                        mechanicMode
                     }) => (
-    <Card className="container">
-        <br/>
-        <button className="btn btn-primary pull-left" onClick={toggleMode}>{!mechanicMode ? <span>SignUp as mechanic</span> : <span>SignUp as user</span>}</button>
+    <card className="container">
 
         <form action="/" onSubmit={onSubmit}>
-            <h2 className="card-heading">{mechanicMode ? <span>SignUp as Mechanic</span> : <span>SignUp as User</span>}</h2>
+            <h2 className="card-heading">SignUp</h2>
             {errors.summary && <p className="error-message">{errors.summary}</p>}
 
             <div className="field-line">
@@ -51,40 +47,6 @@ const SignUpForm = ({
                     value={user.password}
                 />
             </div>
-            {mechanicMode &&
-                <div>
-                    <div className="field-line">
-                        <TextField
-                            floatingLabelText="Mobile Number"
-                            name="mobileNumber"
-                            errorText={errors.mobileNumber}
-                            onChange={onChange}
-                            value={user.mobileNumber}
-                        />
-                    </div>
-
-                    <div className="field-line">
-                        <TextField
-                            floatingLabelText="Address"
-                            name="address"
-                            errorText={errors.address}
-                            onChange={onChange}
-                            value={user.address}
-                        />
-                    </div>
-
-                    <div className="field-line">
-                        <TextField
-                            floatingLabelText="Job"
-                            name="userType"
-                            errorText={errors.userType}
-                            onChange={onChange}
-                            value={user.userType}
-                        />
-                    </div>
-                </div>
-
-            }
 
             <div className="button-line">
                 <RaisedButton type="submit" label="Create New Account" primary/>
@@ -92,7 +54,7 @@ const SignUpForm = ({
 
             <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
         </form>
-    </Card>
+    </card>
 );
 
 SignUpForm.propTypes = {
