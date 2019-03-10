@@ -5,8 +5,8 @@ const AppointmentSchema = new mongoose.Schema({
     workerId: String,
     createdTime: Number,
     modifiedTime: Number,
+    status: String, //pending ,accepted, rejected
     appointmentTime: Number,
-    status: String,
     mobileNumber: Number,
     address: String,
     task: String,

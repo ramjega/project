@@ -19,10 +19,11 @@
     "express": "^4.14.0",
     "jsonwebtoken": "^7.2.1",
     "material-ui": "^0.16.5",
-    "mongoose": "^4.7.3",
+    "material-ui-pickers": "^2.2.4",
     "moment": "2.22.2",
     "moment-range": "4.0.1",
     "moment-timezone": "0.5.5",
+    "mongoose": "^4.7.3",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.4.1",
@@ -30,7 +31,6 @@
     "react-router": "^3.0.0",
     "react-tap-event-plugin": "^2.0.1",
     "validator": "^6.2.0"
-
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
@@ -40,7 +40,7 @@
     "nodemon": "^1.11.0",
     "webpack": "^1.14.0"
   },
- "engines": {
+  "engines": {
     "node": "6.10.1"
   }
 }

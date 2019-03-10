@@ -13,6 +13,8 @@ const Base = ({children}) => (
                 <ul className="nav navbar-nav">
                     <li className="active"><Link to="/">Home</Link></li>
                     <li className="active"><Link to="/createJob">Create Job</Link></li>
+                    <li className="active"><Link  to="/myAppointments">My Appointments</Link></li>
+
                 </ul>
                 {Auth.isUserAuthenticated() &&
                 <ul className="nav navbar-nav pull-right">
@@ -27,7 +29,7 @@ const Base = ({children}) => (
                 }
                 {Auth.isUserAuthenticated() &&
                 <ul className="nav navbar-nav pull-right">
-                    <li className="active"><Link to="">{Auth.getUser()}</Link></li>
+                    <li className="active"><Link  to="">{Auth.getUser()}</Link></li>
                 </ul>
                 }
             </div>

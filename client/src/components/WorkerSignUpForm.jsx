@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import {Card} from 'material-ui/Card';
 
 
 const WorkerSignUpForm = ({
@@ -9,7 +10,7 @@ const WorkerSignUpForm = ({
                               errors,
                               worker,
                           }) => (
-    <card className="container">
+    <Card className="container">
 
         <form action="/" onSubmit={onSubmit}>
             <h2 className="card-heading">Create Worker</h2>
@@ -60,7 +61,7 @@ const WorkerSignUpForm = ({
             </div>
 
         </form>
-    </card>
+    </Card>
 );
 
 WorkerSignUpForm.propTypes = {

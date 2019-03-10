@@ -53,9 +53,9 @@ router.get('/worker', (req, res) => {
 
 });
 
-router.get('/appointment', (req, res) => {
-    const item = req.body;
-    return Appointment.find(item, (err, result) => {
+router.get('/appointments/:id', (req, res) => {
+    const id = req.params.id;
+    return Appointment.find({userId:id}, (err, result) => {
         if (err) {
         }
 

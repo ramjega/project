@@ -1,32 +1,35 @@
-import React from 'react';
-import Worker from '../components/Worker.jsx';
-class HomePage extends React.Component {
+import React, {PropTypes} from 'react';
+import Auth from "../modules/Auth";
+import Appointment from '../components/Appointment.jsx';
+
+class MyAppointments extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            workers: []
-        }
+            errors: {},
+            appointments: []
 
-
-    };
-
-    componentDidMount() {
-        this.getWorkers();
+        };
     }
 
-    getWorkers() {
+    componentDidMount() {
+        this.getMyAppointments();
+    }
+
+    getMyAppointments() {
         // create an AJAX request
         const xhr = new XMLHttpRequest();
-        xhr.open('get', '/auth/workers');
+        xhr.open('get', '/api/appointments/'+ Auth.getUserId());
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
         xhr.responseType = 'json';
         xhr.addEventListener('load', () => {
             if (xhr.status === 200) {
 
                 this.setState({
                     errors: {},
-                    workers: xhr.response
+                    appointments: xhr.response
                 });
 
             } else {
@@ -42,19 +45,18 @@ class HomePage extends React.Component {
     }
 
     render() {
-        console.log("workers", this.state.workers);
-        let workers = this.state.workers;
+        let appointments = this.state.appointments;
         return (
             <div className="container-fluid">
-                <center><h1>WAS home page</h1></center>
+                <center><h1>My Appointments</h1></center>
                 <div className="col-sm-12">
                     <div className="row">
                         {
-                            workers.length !== 0 &&
-                            workers.map((worker, index) => {
+                            appointments.length !== 0 &&
+                            appointments.map((appointment, index) => {
                                 return (
                                     <div className="col-sm-3" key={index}>
-                                        <Worker worker={worker}  key={index}/>
+                                        <Appointment appointment={appointment}  key={index}/>
                                     </div>
 
                                 )
@@ -70,4 +72,9 @@ class HomePage extends React.Component {
 
 }
 
-export default HomePage;
+MyAppointments.contextTypes = {
+    router: PropTypes.object.isRequired
+};
+
+
+export default MyAppointments;

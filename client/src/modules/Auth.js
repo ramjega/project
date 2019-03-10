@@ -17,12 +17,20 @@ class Auth {
         localStorage.setItem('userId', userId);
     }
 
+    static selectedWorkerId(workerId) {
+        localStorage.setItem('workerId', workerId);
+    }
+
     static getUser() {
         return localStorage.getItem('user');
     }
 
     static getUserId() {
         return localStorage.getItem('userId');
+    }
+
+    static getWorkerId() {
+        return localStorage.getItem('workerId');
     }
 
     /**
