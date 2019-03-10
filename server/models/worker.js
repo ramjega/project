@@ -4,12 +4,12 @@ let WorkerSchema = new mongoose.Schema({
     userId: String,
     createdTime: Number,
     modifiedTime: Number,
-    jobType: String,
-    status: String,
+    status: String,  // initial, active , suspended
+    rating: Number,
+    job: String,
     experience: String,
     paymentInfo: String,
-    notes: String,
-    rating: Number
+    notes: String
 
 });
 

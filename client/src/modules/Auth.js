@@ -13,8 +13,16 @@ class Auth {
         localStorage.setItem('user', user);
     }
 
+    static loggedInUserId(userId) {
+        localStorage.setItem('userId', userId);
+    }
+
     static getUser() {
         return localStorage.getItem('user');
+    }
+
+    static getUserId() {
+        return localStorage.getItem('userId');
     }
 
     /**
@@ -33,6 +41,7 @@ class Auth {
     static deauthenticateUser() {
         localStorage.removeItem('token');
     }
+
     static removeUser() {
         localStorage.removeItem('user');
     }

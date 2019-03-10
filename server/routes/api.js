@@ -42,7 +42,7 @@ router.get('/dashboard', (req, res) => {
 
 router.get('/worker', (req, res) => {
     const item = req.body;
-    return Worker.find(item, (err, result) => {
+    return Worker.find(item ? item : {}, (err, result) => {
         if (err) {
         }
 
@@ -66,9 +66,9 @@ router.get('/appointment', (req, res) => {
 
 });
 
-router.get('/user', (req, res) => {
-    const item = req.body;
-    return User.find(item, (err, result) => {
+router.get('/user/:id', (req, res) => {
+    const id = req.params.id;
+    return User.find({_id:id}, (err, result) => {
         if (err) {
         }
 
@@ -82,6 +82,7 @@ router.get('/user', (req, res) => {
 //=========== put methods
 router.put('/user', (req, res) => {
     let item = req.body;
+    console.log(item)
     return User.update(item, (err, result) => {
         if (err) {
             res.send(err);
@@ -93,6 +94,7 @@ router.put('/user', (req, res) => {
 
 router.put('/worker', (req, res) => {
     let item = req.body;
+    console.log(item)
     return Worker.update(item, (err, result) => {
         if (err) {
             res.send(err);

@@ -1,6 +1,7 @@
 const express = require('express');
 const validator = require('validator');
 const passport = require('passport');
+const Worker = require('mongoose').model('Worker');
 
 const router = new express.Router();
 
@@ -147,6 +148,23 @@ router.post('/login', (req, res, next) => {
             user: userData
         });
     })(req, res, next);
+
+
+
+});
+
+// api for get all workers in home page
+router.get('/workers', (req, res) => {
+    const item = req.body;
+    return Worker.find(item ? item : {}, (err, result) => {
+        if (err) {
+        }
+
+        res.send(result);
+
+    });
+
+
 });
 
 module.exports = router;

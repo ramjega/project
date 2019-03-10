@@ -68,6 +68,9 @@ class LoginPage extends React.Component {
                 // save the user
                 Auth.loggedInUser(xhr.response.user.name);
 
+                // save the userId
+                Auth.loggedInUserId(xhr.response.user._id);
+
 
                 // change the current URL to /
                 this.context.router.replace('/');

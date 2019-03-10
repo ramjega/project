@@ -11,7 +11,8 @@ const Base = ({children}) => (
                     <a className="navbar-brand active" href="#">WAS</a>
                 </div>
                 <ul className="nav navbar-nav">
-                    <li className="active"><a href="#">Home</a></li>
+                    <li className="active"><Link to="/">Home</Link></li>
+                    <li className="active"><Link to="/createJob">Create Job</Link></li>
                 </ul>
                 {Auth.isUserAuthenticated() &&
                 <ul className="nav navbar-nav pull-right">
